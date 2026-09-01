@@ -74,3 +74,7 @@ npm run tauri build
 - 实施计划：`specs/001-cfd-workflow-archive/plan.md`
 - 验收指南：`specs/001-cfd-workflow-archive/quickstart.md`
 - 前后端契约：`specs/001-cfd-workflow-archive/contracts/tauri-commands.md`
+
+## 许可
+
+本项目基于 [MIT License](./LICENSE) 开源。
