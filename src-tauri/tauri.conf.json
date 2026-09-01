@@ -1,0 +1,38 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "CFDFlow",
+  "version": "0.1.0",
+  "identifier": "com.cfdflow.app",
+  "build": {
+    "beforeDevCommand": "npm run dev:vite",
+    "devUrl": "http://localhost:5173",
+    "beforeBuildCommand": "npm run build:vite",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "label": "main",
+        "title": "CFD-Flow 流程归档管理",
+        "width": 1280,
+        "height": 800,
+        "minWidth": 1024,
+        "minHeight": 700,
+        "dragDropEnabled": true
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["nsis"],
+    "icon": ["icons/icon.ico"],
+    "windows": {
+      "webviewInstallMode": {
+        "type": "downloadBootstrapper"
+      }
+    }
+  }
+}

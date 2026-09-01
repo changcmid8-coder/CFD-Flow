@@ -1,0 +1,190 @@
+/* CFD-Flow 设计令牌 —— 全局唯一的视觉语言来源（章程：体验与视觉标准） */
+:root {
+  /* 色彩 */
+  --c-bg: #f4f6fa;
+  --c-surface: #ffffff;
+  --c-surface-2: #eef1f7;
+  --c-border: #e2e7f0;
+  --c-text: #1b2430;
+  --c-text-2: #5b6b7f;
+  --c-text-3: #8a97a8;
+  --c-primary: #1d4ed8;
+  --c-primary-hover: #1a45bd;
+  --c-primary-soft: #e8eefc;
+  --c-danger: #d93a3a;
+  --c-danger-soft: #fdeaea;
+  --c-success: #178a50;
+  --c-success-soft: #e6f5ec;
+  --c-warn: #b7791f;
+  --c-warn-soft: #fbf1df;
+
+  /* 圆角 */
+  --radius-s: 6px;
+  --radius-m: 10px;
+  --radius-l: 14px;
+
+  /* 间距 */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+
+  /* 动效 */
+  --dur-1: 120ms;
+  --dur-2: 220ms;
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+
+  /* 阴影 */
+  --shadow-1: 0 1px 3px rgba(16, 24, 40, 0.08);
+  --shadow-2: 0 8px 28px rgba(16, 24, 40, 0.16);
+
+  /* 字号 */
+  --fs-s: 12px;
+  --fs-m: 13px;
+  --fs-l: 15px;
+  --fs-xl: 18px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  font-size: var(--fs-m);
+  color: var(--c-text);
+  background: var(--c-bg);
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: #c6cfdb;
+  border-radius: 5px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ---------- React Flow 画布覆写（FR-008：消费同一套设计令牌） ---------- */
+.react-flow {
+  --xy-background-color: var(--c-bg);
+}
+.react-flow__controls {
+  box-shadow: var(--shadow-1);
+  border-radius: var(--radius-m);
+  overflow: hidden;
+  border: 1px solid var(--c-border);
+}
+.react-flow__controls-button {
+  background: var(--c-surface);
+  border-bottom: 1px solid var(--c-border);
+  color: var(--c-text-2);
+  width: 26px;
+  height: 26px;
+}
+.react-flow__controls-button:hover {
+  background: var(--c-surface-2);
+}
+.react-flow__controls-button svg {
+  fill: currentColor;
+}
+.react-flow__handle {
+  width: 9px;
+  height: 9px;
+  background: var(--c-surface);
+  border: 2px solid var(--c-primary);
+}
+.react-flow__handle-bottom {
+  bottom: -6px;
+}
+.react-flow__handle-top {
+  top: -6px;
+}
+.react-flow__attribution {
+  background: transparent;
+  color: var(--c-text-3);
+  font-size: 10px;
+}
+.react-flow__edge.connectionline {
+  stroke: var(--c-primary);
+  stroke-width: 1.6;
+}
+.react-flow__node.dragging {
+  cursor: default;
+}
+
+/* 节点框悬停操作按钮（FR-015/FR-017） */
+.nodebox-actions {
+  opacity: 0;
+  transition: opacity var(--dur-1) var(--ease);
+}
+.nodebox:hover .nodebox-actions,
+.nodebox:focus-within .nodebox-actions {
+  opacity: 1;
+}
+
+/* 框图分栏容器 */
+.graph-panel {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--c-bg);
+}
+.graph-panel-title {
+  padding: 8px 14px;
+  font-size: var(--fs-s);
+  font-weight: 600;
+  color: var(--c-text-2);
+  background: var(--c-surface);
+  border-bottom: 1px solid var(--c-border);
+}
+.graph-panel .react-flow {
+  flex: 1;
+}
+
+/* 共享边标签（FR-006） */
+.shared-edge-label {
+  background: var(--c-warn-soft);
+  color: var(--c-warn);
+  border: 1px dashed var(--c-warn);
+  border-radius: 999px;
+  padding: 1px 8px;
+  font-size: var(--fs-s);
+  pointer-events: auto;
+  cursor: default;
+  white-space: nowrap;
+}
+
+/* 动画关键帧 */
+@keyframes dlgIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

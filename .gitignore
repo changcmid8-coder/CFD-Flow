@@ -1,0 +1,23 @@
+# Node / Vite
+node_modules/
+dist/
+*.log
+
+# Rust / Tauri
+src-tauri/target/
+src-tauri/gen/
+
+# Env & local
+.env*
+*.tmp
+*.swp
+
+# Agent tooling & local test fixtures
+.zcode/
+.smoke/
+
+# OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
