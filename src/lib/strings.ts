@@ -111,4 +111,9 @@ export const STR = {
   sharedCount: '共享 {n}',
   sharedTooltip: '共享文件：{files}',
   fitView: '适应视图',
+
+  /* 归档流程图与预设 */
+  diagramSaved: '流程图已更新至归档目录',
+  diagramFailed: '流程图生成失败：{reason}（归档文件本身不受影响）',
+  presetsLabel: '典型流程预设',
 } as const

@@ -51,6 +51,7 @@ pub struct BatchFinal {
     pub skipped: u64,
     pub failed: u64,
     pub copied_bytes: u64,
+    pub target_root: String,
 }
 
 enum CopyError {
@@ -108,6 +109,7 @@ pub fn run(plan: Plan, cancel: Arc<AtomicBool>, mut on_progress: impl FnMut(Prog
         skipped: outcome.skipped,
         failed: outcome.failed,
         copied_bytes: outcome.copied_bytes,
+        target_root: plan.target_root.clone(),
     }
 }
 

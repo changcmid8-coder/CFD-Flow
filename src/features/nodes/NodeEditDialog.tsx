@@ -3,6 +3,7 @@ import { useNodes, descendantsOf } from '../../stores/nodes'
 import { useProjects } from '../../stores/projects'
 import { Btn, Dialog, Field, inputStyle } from '../../components/ui'
 import { STR } from '../../lib/strings'
+import { NODE_PRESETS } from '../../lib/presets'
 import * as api from '../../lib/api'
 
 /** 新建/编辑节点：name 必填；上游来源排除自身与自身下游（防环由后端兜底校验）。 */
@@ -73,6 +74,23 @@ function Inner(props: {
 
   return (
     <Dialog title={isNew ? STR.newNode : STR.editNode} onClose={props.onClose} width={480}>
+      <div style={{ marginBottom: 'var(--sp-3)' }}>
+        <div style={{ fontSize: 'var(--fs-s)', color: 'var(--c-text-3)', marginBottom: 4 }}>
+          {STR.presetsLabel}
+        </div>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+          {NODE_PRESETS.map((p) => (
+            <Btn
+              small
+              key={p}
+              title={`${STR.presetsLabel}：${p}`}
+              onClick={() => setName(p)}
+            >
+              {p}
+            </Btn>
+          ))}
+        </div>
+      </div>
       <Field label={STR.nodeName}>
         <input style={inputStyle} value={name} autoFocus maxLength={100} onChange={(e) => setName(e.target.value)} />
       </Field>

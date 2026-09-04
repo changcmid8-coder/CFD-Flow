@@ -45,6 +45,7 @@ pub fn run() {
             commands::archive::finalize_source_disposition,
             commands::archive::list_archive_batches,
             commands::archive::list_batch_results,
+            commands::archive::save_archive_diagram,
         ])
         .run(tauri::generate_context!())
         .expect("error while running cfdflow");

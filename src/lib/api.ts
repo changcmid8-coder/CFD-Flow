@@ -135,6 +135,7 @@ export interface BatchFinal {
   skipped: number
   failed: number
   copied_bytes: number
+  target_root: string
 }
 
 function unwrap<T>(p: Promise<T>): Promise<T> {
@@ -190,6 +191,8 @@ export const listArchiveBatches = (projectId: string) =>
   unwrap<BatchSummary[]>(invoke('list_archive_batches', { projectId }))
 export const listBatchResults = (batchId: string) =>
   unwrap<ArchiveResultItem[]>(invoke('list_batch_results', { batchId }))
+export const saveArchiveDiagram = (targetRoot: string, projectName: string, png: Uint8Array) =>
+  unwrap<string>(invoke('save_archive_diagram', { targetRoot, projectName, png }))
 
 // ---------- 事件 ----------
 export function onRegisterProgress(cb: (p: { node_id: string; scanned: number; current_path: string }) => void) {

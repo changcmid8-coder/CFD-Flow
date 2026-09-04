@@ -318,6 +318,41 @@ pub fn finalize_source_disposition(db: State<Db>, batch_id: String, keep_sources
     finalize_source_disposition_conn(&conn, &batch_id, keep_sources)
 }
 
+/// 归档收尾（US1 / FR-001~002/FR-005）：把前端渲染好的流程图 PNG 写入
+/// `目标目录/工程名/流程图.png`（覆盖更新）。仅写文件，无任何图逻辑；
+/// 失败由前端以可见警告呈现，不影响归档批次结果。
+pub fn save_archive_diagram_file(target_root: &str, project_name: &str, png: &[u8]) -> Result<String, AppError> {
+    let root = target_root.trim();
+    let name = project_name.trim();
+    if root.is_empty() || name.is_empty() {
+        return Err(AppError::validation("归档目标目录与工程名称不能为空"));
+    }
+    if png.is_empty() {
+        return Err(AppError::validation("流程图内容为空"));
+    }
+    let dir = PathBuf::from(root).join(safe_name(name));
+    std::fs::create_dir_all(&dir).map_err(AppError::io)?;
+    let dest = dir.join("流程图.png");
+    let tmp = dir.join("流程图.png.tmp");
+    std::fs::write(&tmp, png).map_err(AppError::io)?;
+    if dest.exists() {
+        std::fs::remove_file(&dest).map_err(|e| {
+            let _ = std::fs::remove_file(&tmp);
+            AppError::io(e)
+        })?;
+    }
+    std::fs::rename(&tmp, &dest).map_err(|e| {
+        let _ = std::fs::remove_file(&tmp);
+        AppError::io(e)
+    })?;
+    Ok(dest.to_string_lossy().to_string())
+}
+
+#[tauri::command]
+pub fn save_archive_diagram(target_root: String, project_name: String, png: Vec<u8>) -> Result<String, AppError> {
+    save_archive_diagram_file(&target_root, &project_name, &png)
+}
+
 #[tauri::command]
 pub fn list_batch_results(db: State<Db>, batch_id: String) -> Result<Vec<crate::models::ArchiveResultItem>, AppError> {
     let conn = db.conn.lock().map_err(|_| AppError::db("数据库连接被占用"))?;

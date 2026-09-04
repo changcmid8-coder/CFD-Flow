@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useProjects } from '../stores/projects'
 import { useArchive } from '../stores/archive'
 import { onArchiveFinished, onArchiveProgress } from '../lib/api'
+import { exportArchiveDiagram } from '../lib/graph-diagram'
 import ProjectsView from './ProjectsView'
 import WorkspaceView from './WorkspaceView'
 import { Spinner } from '../components/ui'
@@ -17,7 +18,11 @@ export default function App() {
     load().finally(() => setBooted(true))
     // 归档事件订阅挂在应用层：进度与结束事件驱动归档流程状态机
     const un1 = onArchiveProgress(setProgress)
-    const un2 = onArchiveFinished(setFinal)
+    const un2 = onArchiveFinished((f) => {
+      setFinal(f)
+      // US1：批次有成功复制文件时，把流程图写入归档目录（失败可见、不阻塞）
+      if (f.copied > 0) void exportArchiveDiagram(f)
+    })
     return () => {
       un1.then((f) => f())
       un2.then((f) => f())
